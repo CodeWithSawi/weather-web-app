@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getWeather } from "./api";
 import Card from "./components/cards/Card";
+import DailyForecast from "./components/cards/DailyForecast";
 
 function App() {
   const { data } = useSuspenseQuery({
@@ -13,12 +14,11 @@ function App() {
       <Card title="Current Weather">
         {JSON.stringify(data?.current).slice(0, 100)}
       </Card>
-      <Card title="Daily Forecast">
-        {JSON.stringify(data?.daily).slice(0, 100)}
-      </Card>
+
       <Card title="Hourly Forecast">
         {JSON.stringify(data?.hourly).slice(0, 100)}
       </Card>
+      <DailyForecast />
     </div>
   );
 }

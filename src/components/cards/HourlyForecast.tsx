@@ -10,7 +10,7 @@ type Props = {
 
 export default function HourlyForecast({ coords }: Props) {
   const { data } = useSuspenseQuery({
-    queryKey: ["weather"],
+    queryKey: ["weather", coords],
     queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
   });
   return (
@@ -29,7 +29,7 @@ export default function HourlyForecast({ coords }: Props) {
             })}
           </p>
           <WeatherIcon URL={hour.weather[0].icon} />
-          <p>{Math.round(hour.temp)}°F</p>
+          <p>{Math.round(hour.temp)}°C</p>
         </div>
       ))}
     </Card>

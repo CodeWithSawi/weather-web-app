@@ -7,11 +7,17 @@ import { useState } from "react";
 import type { Coords } from "./types";
 
 function App() {
-  const [coords, setCoords] = useState<Coords>({ lat: 10, lon: 25 });
+  const [coords, setCoords] = useState<Coords>({ lat: 38.0, lon: -97 });
+
+  const onMapClick = (lat: number, lon: number) => {
+    setCoords({ lat, lon });
+  };
+
+  console.log(coords);
 
   return (
     <div className="flex flex-col gap-8">
-      <Map />
+      <Map coords={coords} onMapClick={onMapClick} />
       <CurrentWeather coords={coords} />
       <HourlyForecast coords={coords} />
       <DailyForecast coords={coords} />

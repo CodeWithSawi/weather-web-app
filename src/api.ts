@@ -14,7 +14,12 @@ export async function getWeather({ lat, lon }: { lat: number; lon: number }) {
 
   const json = await res.json();
 
-  const data = weatherResponseSchema.parse(json);
+  // Add this try/catch block to inspect the validation failure
+  const result = weatherResponseSchema.safeParse(json);
+  if (!result.success) {
+    console.error("Zod Validation Error Details:", result.error.format());
+    throw result.error;
+  }
 
-  return data;
+  return result.data;
 }

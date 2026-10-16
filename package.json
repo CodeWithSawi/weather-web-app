@@ -16,11 +16,13 @@
     "dotenv": "^18.0.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-leaflet": "^5.0.0-rc.2",
     "tailwindcss": "^4.3.3",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/leaflet": "^1.9.22",
     "@types/node": "^24.19.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",

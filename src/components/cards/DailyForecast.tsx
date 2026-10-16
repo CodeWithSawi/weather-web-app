@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Card from "./Card";
 import { getWeather } from "../../api";
+import WeatherIcon from "../ui/WeatherIcon";
 
 // type Props = {};
 
@@ -9,28 +10,23 @@ export default function DailyForecast() {
     queryKey: ["weather"],
     queryFn: () => getWeather({ lat: 10, lon: 25 }),
   });
+
   return (
-    <Card title="Daily Forecast">
+    <Card childrenClassName=" flex flex-col gap-4" title="Daily Forecast">
       {/* {JSON.stringify(data?.daily).slice(0, 100)} */}
-      <div className="flex flex-col gap-4">
-        {data.daily.map((day) => (
-          <div key={day.dt} className="flex justify-between">
-            <p className="w-9">
-              {new Date(day.dt * 1000).toLocaleDateString(undefined, {
-                weekday: "short",
-              })}
-            </p>
-            <img
-              className="size-8"
-              src={`https://openweathermap.org/payload/api/media/file/${day.weather[0].icon}.png`}
-              alt=""
-            />
-            <p>{Math.round(day.temp.day)}°F</p>
-            <p className="text-gray-500/75">{Math.round(day.temp.min)}°F</p>
-            <p className="text-gray-500/75">{Math.round(day.temp.max)}°F</p>
-          </div>
-        ))}
-      </div>
+      {data.daily.map((day) => (
+        <div key={day.dt} className="flex justify-between">
+          <p className="w-9">
+            {new Date(day.dt * 1000).toLocaleDateString(undefined, {
+              weekday: "short",
+            })}
+          </p>
+          <WeatherIcon URL={day.weather[0].icon} />
+          <p>{Math.round(day.temp.day)}°F</p>
+          <p className="text-gray-500/75">{Math.round(day.temp.min)}°F</p>
+          <p className="text-gray-500/75">{Math.round(day.temp.max)}°F</p>
+        </div>
+      ))}
     </Card>
   );
 }

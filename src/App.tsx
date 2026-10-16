@@ -1,24 +1,27 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getWeather } from "./api";
-import Card from "./components/cards/Card";
+import DailyForecast from "./components/cards/DailyForecast";
+import HourlyForecast from "./components/cards/HourlyForecast";
+import CurrentWeather from "./components/cards/CurrentWeather";
+import AdditionalInfo from "./components/cards/AdditionalInfo";
+import Map from "./components/Map";
+import { useState } from "react";
+import type { Coords } from "./types";
 
 function App() {
-  const { data } = useSuspenseQuery({
-    queryKey: ["weather"],
-    queryFn: () => getWeather({ lat: 10, lon: 25 }),
-  });
+  const [coords, setCoords] = useState<Coords>({ lat: 38.0, lon: -97 });
+
+  const onMapClick = (lat: number, lon: number) => {
+    setCoords({ lat, lon });
+  };
+
+  console.log(coords);
 
   return (
     <div className="flex flex-col gap-8">
-      <Card title="Current Weather">
-        {JSON.stringify(data?.current).slice(0, 100)}
-      </Card>
-      <Card title="Daily Forecast">
-        {JSON.stringify(data?.daily).slice(0, 100)}
-      </Card>
-      <Card title="Hourly Forecast">
-        {JSON.stringify(data?.hourly).slice(0, 100)}
-      </Card>
+      <Map coords={coords} onMapClick={onMapClick} />
+      <CurrentWeather coords={coords} />
+      <HourlyForecast coords={coords} />
+      <DailyForecast coords={coords} />
+      <AdditionalInfo coords={coords} />
     </div>
   );
 }

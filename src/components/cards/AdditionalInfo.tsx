@@ -9,6 +9,7 @@ import SunsetIcon from "../../assets/icons/sunset.svg?react";
 import Uparrow from "../../assets/icons/uparrow.svg?react";
 
 import { getWeather } from "../../api";
+import type { Coords } from "../../types";
 
 const rows = [
   { label: "Cloudiness (%)", value: "clouds", Icon: CloudinessIcon },
@@ -21,15 +22,19 @@ const rows = [
 
 type Row = (typeof rows)[number];
 
+type AdditionalInfoTypes = {
+  coords: Coords;
+};
+
 type Props = {
   value: Row["value"];
   number: number;
 };
 
-export default function AdditionalInfo() {
+export default function AdditionalInfo({ coords }: AdditionalInfoTypes) {
   const { data } = useSuspenseQuery({
     queryKey: ["weather"],
-    queryFn: () => getWeather({ lat: 10, lon: 25 }),
+    queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
   });
 
   return (

@@ -7,8 +7,8 @@ export const weatherResponseSchema = z.object({
   timezone_offset: z.number(),
   current: z.object({
     dt: z.number(),
-    sunrise: z.number(),
-    sunset: z.number(),
+    sunrise: z.number().optional(),
+    sunset: z.number().optional(),
     temp: z.number(),
     feels_like: z.number(),
     pressure: z.number(),
@@ -73,8 +73,8 @@ export const weatherResponseSchema = z.object({
   daily: z.array(
     z.object({
       dt: z.number(),
-      sunrise: z.number(),
-      sunset: z.number(),
+      sunrise: z.number().optional(),
+      sunset: z.number().optional(),
       moonrise: z.number(),
       moonset: z.number(),
       moon_phase: z.number(),

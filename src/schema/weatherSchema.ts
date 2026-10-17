@@ -16,7 +16,7 @@ export const weatherResponseSchema = z.object({
     dew_point: z.number(),
     uvi: z.number(),
     clouds: z.number(),
-    visibility: z.number(),
+    visibility: z.number().optional(),
     wind_speed: z.number(),
     wind_deg: z.number(),
     wind_gust: z.number().optional(),
@@ -34,12 +34,14 @@ export const weatherResponseSchema = z.object({
       })
       .optional(),
   }),
-  minutely: z.array(
-    z.object({
-      dt: z.number(),
-      precipitation: z.number(),
-    }),
-  ),
+  minutely: z
+    .array(
+      z.object({
+        dt: z.number(),
+        precipitation: z.number(),
+      }),
+    )
+    .optional(),
   hourly: z.array(
     z.object({
       dt: z.number(),

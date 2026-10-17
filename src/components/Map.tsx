@@ -2,9 +2,16 @@ import L from "leaflet";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { Coords } from "../types";
+import { useEffect } from "react";
 
 delete (
   L.Icon.Default.prototype as typeof L.Icon.Default.prototype & {
@@ -27,31 +34,40 @@ export default function Map({ coords, onMapClick }: Props) {
   const { lat, lon } = coords;
 
   return (
-    <MapContainer
-      center={[lat, lon]}
-      zoom={5}
-      style={{ width: "100%", height: "500px" }}
-    >
-      <MapClick onMapClick={onMapClick} />
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[lat, lon]} />
-    </MapContainer>
+    <div className="relative z-0 w-full h-[500px]">
+      <MapContainer
+        center={[lat, lon]}
+        zoom={5}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <MapController coords={coords} onMapClick={onMapClick} />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[lat, lon]} />
+      </MapContainer>
+    </div>
   );
 }
 
-type MapClickProps = {
+type MapControllerProps = {
   onMapClick: (lat: number, lon: number) => void;
+  coords: { lat: number; lon: number };
 };
 
-function MapClick({ onMapClick }: MapClickProps) {
-  // useMapEvents safely binds and cleans up map events per render cycle
-  const map = useMapEvents({
+function MapController({ onMapClick, coords }: MapControllerProps) {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView([coords.lat, coords.lon], map.getZoom(), {
+      animate: true,
+    });
+  }, [coords, map]);
+
+  useMapEvents({
     click(e) {
       const { lat, lng } = e.latlng;
-      map.panTo([lat, lng]);
       onMapClick(lat, lng);
     },
   });

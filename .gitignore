@@ -13,7 +13,7 @@ dist-ssr
 *.local
 .env
 CI_CD_GUIDE.md
-
+LEAFLET_ICON_FIX.md
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

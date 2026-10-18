@@ -43,6 +43,9 @@ export default function LocationDropdown({ location, setLocation }: Props) {
       {/* Set z-index higher than Leaflet's internal panes (400-700) */}
       <SelectContent className="z-1000">
         <SelectGroup>
+          {location === "custom" && (
+            <SelectItem value="custom">Custom</SelectItem>
+          )}
           {cities.map((item) => (
             <SelectItem key={item} value={item}>
               {item}

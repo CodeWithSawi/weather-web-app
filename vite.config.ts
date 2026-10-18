@@ -4,7 +4,6 @@ import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 import svgr from "vite-plugin-svgr";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), svgr()],
   resolve: {
@@ -14,5 +13,8 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+  },
+  optimizeDeps: {
+    include: ["@maptiler/leaflet-maptilersdk"],
   },
 });

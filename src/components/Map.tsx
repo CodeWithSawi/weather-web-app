@@ -50,7 +50,7 @@ export default function Map({ mapType, coords, onMapClick }: Props) {
         <TileLayer
           key={mapType}
           url={`https://tile.openweathermap.org/map/${mapType}/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`}
-          opacity={0.6}
+          opacity={0.4}
         />
         <Marker position={[lat, lon]} />
       </MapContainer>

@@ -9,11 +9,12 @@ import LocationDropdown from "./components/dropdowns/LocationDropdown";
 import MapTypeDropdown from "./components/dropdowns/MapTypeDropdown";
 import { useQuery } from "@tanstack/react-query";
 import { getGeocode } from "./api";
+import MapLegend, { type MapType } from "./components/MapLegend";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({ lat: 38.0, lon: -97 });
   const [location, setLocation] = useState("Tokyo");
-  const [mapType, setMapType] = useState("clouds_new");
+  const [mapType, setMapType] = useState<MapType>("clouds_new");
 
   const { data } = useQuery({
     queryKey: ["geocode", location],
@@ -42,7 +43,11 @@ function App() {
           <MapTypeDropdown mapType={mapType} setMapType={setMapType} />{" "}
         </div>
       </div>
-      <Map coords={coords} onMapClick={onMapClick} mapType={mapType} />
+      <div className="relative">
+        <MapLegend mapType={mapType} />
+
+        <Map coords={coords} onMapClick={onMapClick} mapType={mapType} />
+      </div>
       <CurrentWeather coords={coords} />
       <HourlyForecast coords={coords} />
       <DailyForecast coords={coords} />

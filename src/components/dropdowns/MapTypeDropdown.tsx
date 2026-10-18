@@ -7,13 +7,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Dispatch, SetStateAction } from "react";
+import type { MapType } from "../MapLegend";
 
 type Props = {
-  mapType: string;
-  setMapType: Dispatch<SetStateAction<string>>;
+  mapType: MapType;
+  setMapType: Dispatch<SetStateAction<MapType>>;
 };
 
-const mapTypes = [
+const mapTypes: MapType[] = [
   "precipitation_new",
   "clouds_new",
   "pressure_new",
@@ -26,8 +27,9 @@ export default function MapTypeDropdown({ mapType, setMapType }: Props) {
     <Select
       value={mapType}
       onValueChange={(value) => {
-        if (value) {
-          setMapType(value);
+        const selectedMapType = mapTypes.find((item) => item === value);
+        if (selectedMapType) {
+          setMapType(selectedMapType);
         }
       }}
     >

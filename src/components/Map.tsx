@@ -9,7 +9,6 @@ import {
   useMapEvents,
   useMap,
 } from "react-leaflet";
-import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
 import "leaflet/dist/leaflet.css";
 import type { Coords } from "../types";
 import { useEffect } from "react";
@@ -46,7 +45,10 @@ export default function Map({ mapType, coords, onMapClick }: Props) {
         style={{ width: "100%", height: "100%" }}
       >
         <MapController coords={coords} onMapClick={onMapClick} />
-        <MapTilerBaseLayer />
+        <TileLayer
+          url={`https://api.maptiler.com/maps/basic-v2-dark/{z}/{x}/{y}.png?key=${MAPTILER_API_KEY}`}
+          attribution='&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+        />
         <TileLayer
           key={mapType}
           url={`https://tile.openweathermap.org/map/${mapType}/{z}/{x}/{y}.png?appid=${WEATHER_API_KEY}`}
@@ -76,25 +78,6 @@ function MapController({ onMapClick, coords }: MapControllerProps) {
       onMapClick(lat, lng);
     },
   });
-
-  return null;
-}
-
-function MapTilerBaseLayer() {
-  const map = useMap();
-
-  useEffect(() => {
-    const mtLayer = new MaptilerLayer({
-      apiKey: MAPTILER_API_KEY,
-      style: "basic-dark",
-    });
-
-    mtLayer.addTo(map);
-
-    return () => {
-      map.removeLayer(mtLayer);
-    };
-  }, [map]);
 
   return null;
 }
